@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/IvanAprea/sapin-bot/issues"
   },
-  "homepage": "https://github.com/IvanAprea/sapin-bot#readme"
+  "homepage": "https://github.com/IvanAprea/sapin-bot#readme",
+  "dependencies": {
+    "discord.js": "^14.13.0",
+    "dotenv": "^16.3.1"
+  }
 }
