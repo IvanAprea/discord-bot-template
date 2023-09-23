@@ -1,8 +1,10 @@
-const { REST, Routes } = require('discord.js');
-const dotenv = require('dotenv');
+import { REST, Routes } from 'discord.js';
+import dotenv from 'dotenv';
 dotenv.config();
-const fs = require('node:fs');
-const path = require('node:path');
+import fs from 'node:fs';
+import path from 'node:path';
+
+// This file should be run onceyou want to deploy your commands to Discord.
 
 const commands = [];
 // Grab all the command files from the commands directory you created earlier
