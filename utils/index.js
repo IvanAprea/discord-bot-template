@@ -1,7 +1,9 @@
 import { Collection } from 'discord.js';
 import fs from 'node:fs';
 import path from 'node:path';
+import FileDirName from '../file-dir-name.js';
 
+const { __dirname, __filename } = FileDirName(import.meta);
 /**
  * This function will load all command files from the commands
  * directory and add them to the client.commands collection.

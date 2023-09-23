@@ -1,8 +1,13 @@
 // Require the necessary discord.js classes
-import { Client, Events, IntentsBitField } from 'discord.js';
-import dotenv from 'dotenv';
-import { createCommandsCollection } from './utils/index.js';
+import { Client, Events, IntentsBitField } from "discord.js";
+import dotenv from "dotenv";
+import { createCommandsCollection } from "./utils/index.js";
+import FileDirName from "./file-dir-name.js";
+import path from "node:path";
+import fs from "node:fs";
+
 dotenv.config();
+const { __dirname } = FileDirName();
 
 // Create a new client instance
 // Intents define which events Discord should send to your bot
@@ -15,51 +20,28 @@ const client = new Client({
 	],
 });
 
-// This code is run when the client is ready and connected to Discord
-client.once(Events.ClientReady, (c) => {
-	console.log(`Ready! Logged in as ${c.user.tag}`);
-});
-
 // Load command files as commands on startup
 createCommandsCollection(client);
 
-// Listener to respond to the interactions
-client.on(Events.InteractionCreate, async (interaction) => {
-	// This if checks if the interaction is a command
-	if (!interaction.isChatInputCommand()) return;
-	// Get the command from the commands list
-	const command = interaction.client.commands.get(interaction.commandName);
+const eventsPath = path.join(__dirname, "events");
+const eventFiles = fs
+	.readdirSync(eventsPath)
+	.filter((file) => file.endsWith(".js"));
 
-	if (!command) {
-		console.error(`No command matching ${interaction.commandName} was found.`);
-		return;
+for (const file of eventFiles) {
+	const filePath = path.join(eventsPath, file);
+	const event = import(`file://${filePath}`);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args));
 	}
+}
 
-	try {
-		// Execute the requested command.
-		await command.execute(interaction);
-	}
-	catch (error) {
-		console.error(error);
-		if (interaction.replied || interaction.deferred) {
-			await interaction.followUp({
-				content: 'There was an error while executing this command!',
-				ephemeral: true,
-			});
-		}
-		else {
-			await interaction.reply({
-				content: 'There was an error while executing this command!',
-				ephemeral: true,
-			});
-		}
-	}
-});
-
-client.on('messageCreate', async (message) => {
+client.on("messageCreate", async (message) => {
 	console.log(message);
-	if (message.content === '4') {
-		await message.reply('te pongo');
+	if (message.content === "4") {
+		await message.reply("te pongo");
 	}
 });
 
