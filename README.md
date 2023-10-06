@@ -11,3 +11,5 @@ DISCORD_TOKEN: https://discordjs.guide/preparations/setting-up-a-bot-application
 APP ID & SERVER ID: https://discordjs.guide/creating-your-bot/command-deployment.html#guild-commands
 - Deploy commands executing node deploy-commands.js in the terminal.
 - Start your bot server executing node index.js or npm start.
+
+You could access more information about discord.js and how to create a bot in this link https://discordjs.guide/#before-you-begin
