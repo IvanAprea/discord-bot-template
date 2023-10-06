@@ -18,6 +18,7 @@ export default {
 
 		const { cooldowns } = interaction.client;
 
+		// Set user cooldwon to avoid spamming
 		if (!cooldowns.has(command.data.name)) {
 			cooldowns.set(command.data.name, new Collection());
 		}
@@ -27,6 +28,7 @@ export default {
 		const defaultCooldownDuration = 3;
 		const cooldownAmount = (command.cooldown ?? defaultCooldownDuration) * 1000;
 
+		// Check for user in the cooldowns list
 		if (timestamps.has(interaction.user.id)) {
 			const expirationTime =
 				timestamps.get(interaction.user.id) + cooldownAmount;
